@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-    public EditText input = (EditText) this.findViewById(R.id.editText_eingabe);
-    public TextView output = (TextView) this.findViewById(R.id.textView_ergebnis);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +20,9 @@ public class MainActivity extends Activity {
     }
 
     public void clicked(final View v) {
+
+        EditText input = (EditText) findViewById(R.id.editText_eingabe);
+
         final String s = input.getText().toString();
         final String succFormatString = "SUCCESS";
 
@@ -37,27 +37,22 @@ public class MainActivity extends Activity {
 
                 @Override
                 protected void onProgressUpdate(final Long... values) {
+                    EditText input = (EditText) findViewById(R.id.editText_eingabe);
                     input.setText(String.valueOf(values[0]));
                 }
 
                 @Override
                 protected void onPostExecute(final Long result) {
+                    TextView output = (TextView) findViewById(R.id.textView_ergebnis);
                     output.setText(String.format(succFormatString, result));
                 }
             }.execute(Long.valueOf(total));
 
         } catch (final Exception e) {
+            TextView output = (TextView) findViewById(R.id.textView_ergebnis);
             final String message = "FAILURE" + " " + e.getMessage();
             output.setText(message);
         }
-    }
-
-    public void changeInput(Long... values) {
-        input.setText(String.valueOf(values[0]));
-    }
-
-    public void changeOutput(Long result) {
-        output.setText(String.format("SUCCESS", result));
     }
 
     @Override
